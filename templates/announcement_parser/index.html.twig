@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form(form) }}
+
+    <table>
+        {% for last_declaration in lastDeclarations %}
+            <tr>
+                <td>{{ last_declaration.id }}</td>
+                <td>{{ last_declaration.externalId }}</td>
+                <td>{{ last_declaration.publicOfficial is null ? '-' : last_declaration.publicOfficial }}</td>
+                <td>{{ last_declaration.year }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

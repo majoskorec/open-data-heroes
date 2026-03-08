@@ -1,3 +1,30 @@
 body {
     background-color: skyblue;
 }
+
+.page-wrap {
+    max-width: 1400px;
+}
+
+.sticky-year-nav {
+    top: 1rem;
+    z-index: 10;
+}
+
+.mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.section-anchor {
+    scroll-margin-top: 90px;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.diff-pill {
+    min-width: 3rem;
+    text-align: center;
+}

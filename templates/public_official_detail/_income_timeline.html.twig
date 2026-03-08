@@ -1,0 +1,118 @@
+{% set maxTotalIncome = 0 %}
+{% for declaration in declarations %}
+    {% set publicIncome = declaration.declarationIncome and declaration.declarationIncome.publicFunctionIncome ? declaration.declarationIncome.publicFunctionIncome + 0 : 0 %}
+    {% set otherIncome = declaration.declarationIncome and declaration.declarationIncome.otherIncome ? declaration.declarationIncome.otherIncome + 0 : 0 %}
+    {% set totalIncome = publicIncome + otherIncome %}
+
+    {% if totalIncome > maxTotalIncome %}
+        {% set maxTotalIncome = totalIncome %}
+    {% endif %}
+{% endfor %}
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="h4 mb-1">Vývoj príjmov</h2>
+                <div class="text-body-secondary">
+                    Porovnanie príjmov po jednotlivých rokoch
+                </div>
+            </div>
+        </div>
+
+        {% if declarations|length > 0 %}
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th style="width: 90px;">Rok</th>
+                        <th style="width: 160px;">Verejná funkcia</th>
+                        <th style="width: 160px;">Iné príjmy</th>
+                        <th style="width: 160px;">Spolu</th>
+                        <th>Graf</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for declaration in declarations %}
+                        {% set publicIncome = declaration.declarationIncome and declaration.declarationIncome.publicFunctionIncome ? declaration.declarationIncome.publicFunctionIncome + 0 : 0 %}
+                        {% set otherIncome = declaration.declarationIncome and declaration.declarationIncome.otherIncome ? declaration.declarationIncome.otherIncome + 0 : 0 %}
+                        {% set totalIncome = publicIncome + otherIncome %}
+
+                        {% set publicPercent = maxTotalIncome > 0 ? (publicIncome / maxTotalIncome * 100) : 0 %}
+                        {% set otherPercent = maxTotalIncome > 0 ? (otherIncome / maxTotalIncome * 100) : 0 %}
+                        {% set totalPercent = maxTotalIncome > 0 ? (totalIncome / maxTotalIncome * 100) : 0 %}
+
+                        <tr>
+                            <td class="fw-semibold">{{ declaration.year }}</td>
+
+                            <td class="text-nowrap">
+                                {% if publicIncome > 0 %}
+                                    {{ publicIncome|number_format(0, '.', ' ') }} €
+                                {% else %}
+                                    <span class="text-body-secondary">—</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-nowrap">
+                                {% if otherIncome > 0 %}
+                                    {{ otherIncome|number_format(0, '.', ' ') }} €
+                                {% else %}
+                                    <span class="text-body-secondary">—</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-nowrap fw-semibold">
+                                {% if totalIncome > 0 %}
+                                    {{ totalIncome|number_format(0, '.', ' ') }} €
+                                {% else %}
+                                    <span class="text-body-secondary">—</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="d-flex flex-column gap-2">
+                                    <div>
+                                        <div class="d-flex justify-content-between small mb-1">
+                                            <span class="text-body-secondary">Verejná funkcia</span>
+                                            <span>{{ publicIncome > 0 ? publicIncome|number_format(0, '.', ' ') ~ ' €' : '—' }}</span>
+                                        </div>
+                                        <div class="progress" role="progressbar" aria-valuenow="{{ publicPercent|round(0, 'floor') }}" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+                                            <div class="progress-bar bg-primary" style="width: {{ publicPercent }}%;"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="d-flex justify-content-between small mb-1">
+                                            <span class="text-body-secondary">Iné príjmy</span>
+                                            <span>{{ otherIncome > 0 ? otherIncome|number_format(0, '.', ' ') ~ ' €' : '—' }}</span>
+                                        </div>
+                                        <div class="progress" role="progressbar" aria-valuenow="{{ otherPercent|round(0, 'floor') }}" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" style="width: {{ otherPercent }}%;"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="d-flex justify-content-between small mb-1">
+                                            <span class="text-body-secondary">Spolu</span>
+                                            <span class="fw-semibold">{{ totalIncome > 0 ? totalIncome|number_format(0, '.', ' ') ~ ' €' : '—' }}</span>
+                                        </div>
+                                        <div class="progress" role="progressbar" aria-valuenow="{{ totalPercent|round(0, 'floor') }}" aria-valuemin="0" aria-valuemax="100" style="height: 12px;">
+                                            <div class="progress-bar bg-success" style="width: {{ totalPercent }}%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="small text-body-secondary mt-3">
+                Mierka grafu je normalizovaná podľa najvyššieho celkového príjmu v zobrazených rokoch.
+            </div>
+        {% else %}
+            <p class="text-body-secondary mb-0">Nie sú dostupné žiadne roky na porovnanie príjmov.</p>
+        {% endif %}
+    </div>
+</div>

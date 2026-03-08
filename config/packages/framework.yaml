@@ -7,6 +7,11 @@ framework:
 
     #esi: true
     #fragments: true
+    http_client:
+        default_options:
+            # For more options, see https://symfony.com/doc/current/http_client.html#options
+            timeout: 120
+            max_duration: 120
 
 when@test:
     framework:

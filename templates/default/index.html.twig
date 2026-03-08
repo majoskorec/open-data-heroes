@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid page-wrap py-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Zoznam verejných funkcionárov
+                </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for public_official in publicOfficials %}
+                    <li class="list-group-item">
+                        <a href="{{ path('app_public_official_detail', {
+                            id: public_official.id
+                        }) }}">
+                            {{ public_official }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

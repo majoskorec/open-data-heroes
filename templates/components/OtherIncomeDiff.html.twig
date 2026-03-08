@@ -1,0 +1,11 @@
+{% set diff_value = this.diffValue %}
+{% if diff_value is null or diff_value == 0 %}
+{% elseif diff_value > 0 %}
+    <span class="badge text-bg-success fs-6">
+        + {{ diff_value|number_format(2, ',', ' ') }} €
+    </span>
+{% elseif diff_value < 0 %}
+    <span class="badge text-bg-warning fs-6">
+        {{ diff_value|number_format(2, ',', ' ') }} €
+    </span>
+{% endif %}

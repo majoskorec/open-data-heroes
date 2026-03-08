@@ -1,3 +1,6 @@
+parameters:
+    env(DATABASE_URL): 'mysql://%env(resolve:DATABASE_USER)%:%env(resolve:DATABASE_PASSWORD)%@%env(resolve:DATABASE_HOST)%:%env(resolve:DATABASE_PORT)%/%env(resolve:DATABASE_NAME)%?serverVersion=%env(resolve:DATABASE_VERSION)%&charset=utf8mb4'
+
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'

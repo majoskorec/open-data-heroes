@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ [
+        publicOfficial.titleBefore ?? null,
+        publicOfficial.firstName ?? null,
+        publicOfficial.lastName ?? null,
+        publicOfficial.titleAfter ?? null
+    ]|filter(v => v is not null and v != '')|join(' ') }} – majetkové priznania
+{% endblock %}
+
+{% block body %}
+    {% set officialName = [
+        publicOfficial.titleBefore ?? null,
+        publicOfficial.firstName ?? null,
+        publicOfficial.lastName ?? null,
+        publicOfficial.titleAfter ?? null
+    ]|filter(v => v is not null and v != '')|join(' ') %}
+
+    <div class="container-fluid page-wrap py-4">
+        <div class="row g-4">
+            <div class="col-12 col-xl-3">
+                <div class="sticky-xl-top sticky-year-nav">
+                    <div class="card border-0 shadow-sm mb-1">
+                        <div class="card-body">
+                            <a href="{{ path('app_default_index') }}">
+                                Späť na zoznam
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h1 class="h3 mb-2">{{ officialName }}</h1>
+                            <p class="text-body-secondary mb-3">
+                                Prehľad majetkových priznaní po jednotlivých rokoch.
+                            </p>
+
+                            <h2 class="h6 text-uppercase text-body-secondary mb-3">Roky</h2>
+                            <div class="overflow-auto pe-1" style="max-height: 60vh;">
+                                <div class="list-group list-group-flush">
+                                    {% for declaration in declarations %}
+                                        {% set publicIncome = declaration.declarationIncome and declaration.declarationIncome.publicFunctionIncome ? declaration.declarationIncome.publicFunctionIncome + 0 : 0 %}
+                                        {% set otherIncome = declaration.declarationIncome and declaration.declarationIncome.otherIncome ? declaration.declarationIncome.otherIncome + 0 : 0 %}
+                                        {% set totalIncome = publicIncome + otherIncome %}
+                                        <a href="#year-{{ declaration.year }}"
+                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0">
+                                            <span class="fw-medium">{{ declaration.year }}</span>
+                                            <span class="badge text-bg-secondary">
+                                                {{ totalIncome|number_format(0, '.', ' ') }} €
+                                            </span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-9">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+                            <div>
+                                <h2 class="h4 mb-1">{{ officialName }}</h2>
+                                <div class="text-body-secondary">
+                                    Politik / verejný funkcionár
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2 align-self-start">
+                                <span class="badge rounded-pill text-bg-light border">
+                                    {{ declarations|length }}
+                                    {% if declarations|length == 1 %}
+                                        priznanie
+                                    {% elseif declarations|length in [2, 3, 4] %}
+                                        priznania
+                                    {% else %}
+                                        priznaní
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% include 'public_official_detail/_income_timeline.html.twig' %}
+
+                {% for declaration in declarations %}
+                    {% set prevDeclaration = declarations[loop.index] ?? null %}
+
+                    {% include 'public_official_detail/_year_detail.html.twig' with {
+                        declaration: declaration,
+                        prevDeclaration: prevDeclaration,
+                    } %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
