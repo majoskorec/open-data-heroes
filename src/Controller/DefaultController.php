@@ -23,7 +23,11 @@ final class DefaultController extends AbstractController
     )]
     public function index(): Response
     {
-        $publicOfficials = $this->entityManager->getRepository(PublicOfficial::class)->findAll();
+        $publicOfficials = $this->entityManager->getRepository(PublicOfficial::class)
+            ->createQueryBuilder('a')
+            ->where('a.id != 1')
+            ->getQuery()
+            ->getResult();
 
         return $this->render('default/index.html.twig', [
             'publicOfficials' => $publicOfficials,
