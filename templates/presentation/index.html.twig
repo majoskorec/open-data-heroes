@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prezentácia projektu{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <div class="mx-auto" style="max-width: 1100px;">
+
+            <section class="card border-0 shadow-sm mb-5">
+                <div class="card-body p-5">
+                    <div class="row align-items-center g-4">
+                        <div class="col-lg-7">
+                            <div class="text-uppercase text-secondary small fw-semibold mb-2">
+                                Team: Škorec
+                            </div>
+                            <h1 class="display-5 fw-bold mb-3">
+                                Open Data Heroes Hackathon
+                            </h1>
+                            <p class="lead text-secondary mb-4">
+                                Prototyp na prehľadné porovnanie majetkových priznaní politikov medzi rokmi
+                                s dôrazom na nehnuteľnosti, hnuteľný majetok, príjmy a zmeny v čase.
+                            </p>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="border rounded-4 p-4 bg-light h-100">
+                                <div class="small text-secondary mb-2">Linky</div>
+                                <div class="d-grid gap-2">
+                                    <a href="https://github.com/majoskorec/open-data-heroes" target="_blank" class="btn btn-dark">
+                                        Github repo: <br>
+                                        https://github.com/majoskorec/open-data-heroes
+                                    </a>
+                                    <a href="https://open-data-heroes.majoskorec.sk" target="_blank" class="btn btn-outline-primary">
+                                        Live demo: <br>
+                                        https://open-data-heroes.majoskorec.sk
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card border-0 shadow-sm mb-5">
+                <div class="card-body p-5">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h2 class="h3 mb-3">Problém</h2>
+                            <p class="text-secondary">
+                                Majetkové priznania politikov sú verejne dostupné, ale pre bežného používateľa
+                                aj analytika sú ťažko porovnateľné. Údaje sú roztrúsené po rokoch, v textovej forme,
+                                bez jasného prehľadu, čo pribudlo, čo zmizlo a čo sa zmenilo.
+                            </p>
+                            <p>
+                                <a href="https://www.nrsr.sk/web/Default.aspx?sid=oznamenia_funkcionarov">
+                                    https://www.nrsr.sk/web/Default.aspx?sid=oznamenia_funkcionarov
+                                </a>
+                            </p>
+                            <ul class="mb-0">
+                                <li>ťažké porovnanie medzi rokmi</li>
+                                <li>ťažké porovnanie medzi politikmi</li>
+                                <li>slabá orientácia v nehnuteľnostiach a vozidlách</li>
+                                <li>prakticky neexistuje prehľad zmien</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <h2 class="h3 mb-3">Cieľ</h2>
+                            <p class="text-secondary">
+                                Vytvoriť prehľadný prototyp, ktorý z verejne dostupných majetkových priznaní
+                                spraví zrozumiteľný časový profil politika.
+                            </p>
+                            <ul class="mb-0">
+                                <li>import a štruktúrovanie priznaní do databázy</li>
+                                <li>vizualizácia jedného roka aj celej časovej osi</li>
+                                <li>porovnanie zmien medzi rokmi</li>
+                                <li>AI-assisted odhad hodnoty majetku tam, kde chýba cena</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="demo" class="card border-0 shadow-sm mb-5">
+                <div class="card-body p-5">
+                    <h2 class="h3 mb-4">Demo prototypu</h2>
+
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <div class="border rounded-4 p-4 h-100">
+                                <div class="fw-semibold mb-2">1. Import priznania</div>
+                                <p class="text-secondary mb-0">
+                                    Z uloženého raw vstupu sa rozparsujú osoby, príjmy, nehnuteľnosti,
+                                    hnuteľné veci, záväzky a ďalšie položky.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="border rounded-4 p-4 h-100">
+                                <div class="fw-semibold mb-2">2. AI obohatenie</div>
+                                <p class="text-secondary mb-0">
+                                    Pri položkách, kde to dáva zmysel, sa dopočíta odhad hodnoty
+                                    ako interval min / likely / max.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="border rounded-4 p-4 h-100">
+                                <div class="fw-semibold mb-2">3. Medziročné porovnanie</div>
+                                <p class="text-secondary mb-0">
+                                    AI a aplikačná logika spárujú rovnaké položky medzi dvoma rokmi
+                                    a zobrazia, čo pribudlo, ubudlo alebo zmenilo podiel.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card border-0 shadow-sm mb-5">
+                <div class="card-body p-5">
+                    <h2 class="h3 mb-4">Roadmapa</h2>
+
+                    <div class="row g-4">
+                        <div class="col-12">
+
+                            <ul class="mb-0">
+                                <li>automatizazia a lepšie parsovanie vstupov</li>
+                                <li>rozšírenie datasetu na viac politikov</li>
+                                <li>spoľahlivejšie matching pravidlá</li>
+                                <li>porovnanie viacerých politikov</li>
+                                <li>vyhľadávanie a filtrovanie</li>
+                                <li>časová os majetku</li>
+                                <li>kvalitnejšie oceňovanie majetku</li>
+                                <li>externé datasety a overovanie</li>
+                                <li>katastrálne napojenie tam, kde je možné</li>
+                                <li>alerty na výrazné zmeny</li>
+                                <li>exporty pre analytikov a novinárov</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-lg-8">
+                            <h2 class="h3 mb-3">Q&A</h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+{% endblock %}
